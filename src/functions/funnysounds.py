@@ -1,28 +1,45 @@
-from playsound import playsound
-import random
-import os
+import pygame, os, random, threading, time
 
-def play_funny_sound():
-    """Plays a random funny sound"""
-    
-    # Path to this script's directory
-    base_dir = os.path.dirname(__file__)
-    
-    # Sound file paths relative to this file
-    sounds = [
-        os.path.join(base_dir, "dexter.wav"),
-        os.path.join(base_dir, "spongebob.wav")
-        os.path.join(base_dir, "phil.wav")
-        os.path.join(base_dir, "strange.wav")
-        os.path.join(base_dir, "walter.wav")
+def play_alarm_and_funny():
+    base_dir = os.path.join(os.path.dirname(__file__), "sounds")
+
+    alarm = os.path.join(base_dir, "sirens.mp3")
+    funny_sounds = [
+        os.path.join(base_dir, "dexter.mp3"),
+        os.path.join(base_dir, "spongebob.mp3"),
+        os.path.join(base_dir, "phil.mp3"),
+        os.path.join(base_dir, "strange.mp3"),
+        os.path.join(base_dir, "walter.mp3")
     ]
 
-    try:
-        random_sound = random.choice(sounds)
-        print(f"🎵 Playing: {random_sound}")
-        playsound(random_sound)
-        print("Sound played successfully!")
-    except Exception as e:
-        print(f"Could not play sound file: {e}")
+    def _play():
+        try:
+            pygame.mixer.init()
 
-play_funny_sound()
+            # 🔊 Step 1: play siren (lower volume)
+            pygame.mixer.music.load(alarm)
+            pygame.mixer.music.set_volume(0.4)  # 0–1 range (40%)
+            pygame.mixer.music.play()
+            print("🚨 Siren started (2 seconds)")
+            time.sleep(4)  # wait 2 seconds
+            pygame.mixer.music.stop()
+
+            # 😂 Step 2: play funny sound looped 3x (full volume)
+            random_sound = random.choice(funny_sounds)
+            funny = pygame.mixer.Sound(random_sound)
+            funny.set_volume(1.0)
+            funny.play(loops=2)  # loops=2 → total 3 plays
+            print(f"😂 Funny sound: {os.path.basename(random_sound)}")
+
+            # give time for the loops to finish (depends on file length)
+            time.sleep(10)
+
+            pygame.mixer.stop()
+            pygame.mixer.quit()
+            print("✅ Done playing sounds")
+
+        except Exception as e:
+            print(f"⚠️ Sound error: {e}")
+
+    # Run in background so rest of code continues (volume-up, Discord, etc.)
+    threading.Thread(target=_play, daemon=True).start()

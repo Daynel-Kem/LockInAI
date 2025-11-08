@@ -6,8 +6,8 @@ from openai import OpenAI
 import time
 import funnysounds
 
-cooldownTime = 30
-volumeUpTime = 5
+cooldownTime = 10
+volumeUpTime = 10
 timeBetweenPresses = 0.1
 lastTrigger = -30
 def take_screenshot():
@@ -21,7 +21,7 @@ def take_screenshot():
 
 def merge_screenshot_photo():
     screen = take_screenshot()
-    photo_path = "src/functions/67.png" #take_photo()
+    photo_path = os.path.join(os.path.dirname(__file__), "67.png") #take_photo()
 
     base_dir = os.path.dirname(os.path.dirname(__file__))  
     image_dir = os.path.join(base_dir, "images")
@@ -84,14 +84,18 @@ def you_got_caught(reason):
         print(f"You opened {reason}")
         output = merge_screenshot_photo()
         print(f"merged image saved at {output}")
+        funnysounds.play_alarm_and_funny()
         #caption = get_gpt_caption(output, reason)
         caption = "gpt disabled rn"
         discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
-        funnysounds.play_funny_sound()
+        
         i = 0
         while (i < volumeUpTime):
             system = platform.system()
             if system == "Windows":
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
                 pyautogui.press("volumeup")
             elif system == "Darwin":
                 os.system("osascript -e 'set volume output volume ((output volume of (get volume settings)) + 50)'")
