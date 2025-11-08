@@ -1,10 +1,11 @@
-import os, datetime, pyautogui, platform
+import os, datetime, pyautogui, platform, sys, subprocess
 from PIL import Image
 import discordbot
 from dotenv import load_dotenv
 from openai import OpenAI
 import time
 import funnysounds
+import popup
 
 cooldownTime = 10
 volumeUpTime = 10
@@ -84,7 +85,10 @@ def you_got_caught(reason):
         print(f"You opened {reason}")
         output = merge_screenshot_photo()
         print(f"merged image saved at {output}")
+        popup_path = os.path.join(os.path.dirname(__file__), "popup.py")
+        subprocess.Popen([sys.executable, popup_path, reason])
         funnysounds.play_alarm_and_funny()
+        
         #caption = get_gpt_caption(output, reason)
         caption = "gpt disabled rn"
         discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
@@ -93,6 +97,14 @@ def you_got_caught(reason):
         while (i < volumeUpTime):
             system = platform.system()
             if system == "Windows":
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
+                pyautogui.press("volumeup")
                 pyautogui.press("volumeup")
                 pyautogui.press("volumeup")
                 pyautogui.press("volumeup")
