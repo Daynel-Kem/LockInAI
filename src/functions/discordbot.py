@@ -1,7 +1,7 @@
 import requests
 import random
 
-def post_to_discord(event_type, confidence=None, image_path=None):
+def post_to_discord(event_type, confidence=None, image_path=None, caption=None):
     """
     Sends a detection event to Discord using a webhook.
     event_type: what was detected (e.g., 'yawn', 'nose_picking')
@@ -11,7 +11,7 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     WEBHOOK_URL = "https://discord.com/api/webhooks/1436744629197213817/_8njr0_0AjymTAvXMzup7pUF0eKFVxR-jJJgG2oN9XDKvLmif29RJ-XADMYr_Xc4k8_8"
     
     # Create message - replace underscores with spaces and capitalize
-    message = f"👀 Detected **{event_type.replace('_', ' ').title()}**"
+    message = f"Detected **{event_type.replace('_', ' ').title()}**"
     
     # Add confidence if provided
     if confidence:
@@ -19,6 +19,10 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     else:
         message += "!"
     
+    #add ai caption
+    if (caption):
+        message += caption
+
     # Package message for Discord
     data = {"content": message}
     
@@ -32,13 +36,12 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     
     # Check if successful
     if response.status_code == 204 or response.status_code == 200:
-        print(f"✅ Sent: {message}")
+        print(f"Sent: {message}")
     else:
-        print(f"⚠️ Error: {response.status_code} - {response.text}")
+        print(f"Error: {response.status_code} - {response.text}")
 
 
-post_to_discord("yawn")
-post_to_discord("nose_picking", confidence=0.85, image_path="/Users/tanayj/Downloads/67.png")
+
 
 
 

@@ -1,5 +1,8 @@
 import os, datetime, pyautogui
 from PIL import Image
+import discordbot
+from dotenv import load_dotenv
+from openai import OpenAI
 
 
 def take_screenshot():
@@ -40,12 +43,41 @@ def merge_screenshot_photo():
     
     return output_path
 
+def get_gpt_caption(output, reason):
+    load_dotenv()
+    api_key = os.getenv("OPENAI_KEY")
+    client = OpenAI(api_key=api_key)
+    prompt = f"""
+    Write a short, funny, edgy not super appropriate for work roast-style caption for a 'caught slacking' photo.
+    The photo is saved at: {output}. This is an app that tracks webcam and computer and "catches you slacking", if you pick your nose, open sites you should not be on like youtube.
+    And it is being posted to discord and we need an extremely edgy dark funny caption that is completely stupid. The reason for this specific image is {reason}.
+    Make it, witty, and meme-worthy. and not corny be blunt call this person out just absolute stupidness with the caption that can also make no sense. 
+    Funny, edgy really dark as dark as you can go, just hilarious. 20 words max.
+    """
+
+
+    # send chat completion request
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",  # cheaper & fast
+        messages=[
+            {"role": "system", "content": "You are a sarcastic meme caption generator."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=80
+    )
+
+    caption = response.choices[0].message.content.strip()
+    print("Caption:", caption)
+    return caption
 
 #main function 
-def you_got_caught(site):
-    print(f"You opened {site}")
+def you_got_caught(reason):
+    print(f"You opened {reason}")
     output = merge_screenshot_photo()
     print(f"merged image saved at {output}")
+    caption = get_gpt_caption(output, reason)
+    discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
+
     #based on site maybe do different sound effects etc
     #takes output inputs into discord bot
 
