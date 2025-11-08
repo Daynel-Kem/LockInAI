@@ -20,7 +20,8 @@ def post_to_discord(event_type, confidence=None, image_path=None, caption=None):
         message += "!"
     
     #add ai caption
-    message += caption
+    if (caption):
+        message += caption
 
     # Package message for Discord
     data = {"content": message}
