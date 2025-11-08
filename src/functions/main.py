@@ -1,5 +1,6 @@
 import os, datetime, pyautogui
 from PIL import Image
+import discordbot
 
 
 def take_screenshot():
@@ -42,10 +43,11 @@ def merge_screenshot_photo():
 
 
 #main function 
-def you_got_caught(site):
-    print(f"You opened {site}")
+def you_got_caught(reason):
+    print(f"You opened {reason}")
     output = merge_screenshot_photo()
     print(f"merged image saved at {output}")
+    discordbot.post_to_discord(reason, confidence=1, image_path=output)
     #based on site maybe do different sound effects etc
     #takes output inputs into discord bot
 
