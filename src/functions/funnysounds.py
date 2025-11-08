@@ -29,17 +29,17 @@ def play_alarm_and_funny():
             funny = pygame.mixer.Sound(random_sound)
             funny.set_volume(1.0)
             funny.play(loops=2)  # loops=2 → total 3 plays
-            print(f"😂 Funny sound: {os.path.basename(random_sound)}")
+            print(f"Funny sound: {os.path.basename(random_sound)}")
 
             # give time for the loops to finish (depends on file length)
             time.sleep(10)
 
             pygame.mixer.stop()
             pygame.mixer.quit()
-            print("✅ Done playing sounds")
+            print("Done playing sounds")
 
         except Exception as e:
-            print(f"⚠️ Sound error: {e}")
+            print(f"Sound error: {e}")
 
     # Run in background so rest of code continues (volume-up, Discord, etc.)
     threading.Thread(target=_play, daemon=True).start()
