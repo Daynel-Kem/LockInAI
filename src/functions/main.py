@@ -1,10 +1,14 @@
-import os, datetime, pyautogui
+import os, datetime, pyautogui, platform
 from PIL import Image
 import discordbot
 from dotenv import load_dotenv
 from openai import OpenAI
+import time
 
-
+cooldownTime = 30
+volumeUpTime = 5
+timeBetweenPresses = 0.1
+lastTrigger = -30
 def take_screenshot():
     screenshot = pyautogui.screenshot()
     return screenshot.convert("RGB")
@@ -72,12 +76,27 @@ def get_gpt_caption(output, reason):
 
 #main function 
 def you_got_caught(reason):
-    print(f"You opened {reason}")
-    output = merge_screenshot_photo()
-    print(f"merged image saved at {output}")
-    caption = get_gpt_caption(output, reason)
-    discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
+    global lastTrigger
+    now = time.time()
+    if (now - lastTrigger >= cooldownTime):
+        lastTrigger = now
+        print(f"You opened {reason}")
+        output = merge_screenshot_photo()
+        print(f"merged image saved at {output}")
+        #caption = get_gpt_caption(output, reason)
+        caption = "gpt disabled rn"
+        discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
 
+        i = 0
+        while (i < volumeUpTime):
+            system = platform.system()
+            if system == "Windows":
+                pyautogui.press("volumeup")
+            elif system == "Darwin":
+                os.system("osascript -e 'set volume output volume ((output volume of (get volume settings)) + 5)'")
+    
+            time.sleep(timeBetweenPresses)
+            i += timeBetweenPresses
     #based on site maybe do different sound effects etc
     #takes output inputs into discord bot
 
