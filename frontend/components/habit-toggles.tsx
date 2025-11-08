@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
@@ -20,7 +20,9 @@ export function HabitToggles() {
     "nose-picking": false,
   })
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [smoothPosition, setSmoothPosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const animationFrameRef = useRef<number>()
 
   const toggleHabit = (habitId: string) => {
     setEnabledHabits((prev) => ({
@@ -37,6 +39,30 @@ export function HabitToggles() {
     })
   }
 
+  useEffect(() => {
+    const lerp = (start: number, end: number, factor: number) => {
+      return start + (end - start) * factor
+    }
+
+    const animate = () => {
+      setSmoothPosition((prev) => ({
+        x: lerp(prev.x, mousePosition.x, 0.15),
+        y: lerp(prev.y, mousePosition.y, 0.15),
+      }))
+      animationFrameRef.current = requestAnimationFrame(animate)
+    }
+
+    if (isHovering) {
+      animationFrameRef.current = requestAnimationFrame(animate)
+    }
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
+    }
+  }, [mousePosition, isHovering])
+
   return (
     <div className="space-y-5">
       <h2 className="text-2xl font-bold text-white">Habits</h2>
@@ -49,10 +75,10 @@ export function HabitToggles() {
       >
         {isHovering && (
           <div
-            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
+            className="pointer-events-none absolute inset-0"
             style={{
-              opacity: isHovering ? 1 : 0,
-              background: `radial-gradient(ellipse 400px 240px at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 255, 255, 0.15), rgba(199, 210, 254, 0.2) 20%, rgba(99, 102, 241, 0.25) 40%, rgba(67, 56, 202, 0.15) 60%, rgba(55, 48, 163, 0.08) 80%, transparent 100%)`,
+              background: `radial-gradient(ellipse 400px 240px at ${smoothPosition.x}px ${smoothPosition.y}px, rgba(255, 255, 255, 0.15), rgba(199, 210, 254, 0.2) 20%, rgba(99, 102, 241, 0.25) 40%, rgba(67, 56, 202, 0.15) 60%, rgba(55, 48, 163, 0.08) 80%, transparent 100%)`,
+              transition: "opacity 0.3s ease-in-out",
             }}
           />
         )}

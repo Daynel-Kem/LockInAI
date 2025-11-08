@@ -15,7 +15,7 @@ export function WebcamFeed() {
     async function startWebcam() {
       try {
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 200, height: 150 },
+          video: { width: 360, height: 270 },
         })
 
         if (videoRef.current) {
@@ -48,7 +48,7 @@ export function WebcamFeed() {
   return (
     <div className="fixed top-8 right-8 z-50">
       <div className="overflow-hidden rounded-2xl backdrop-blur-xl bg-gradient-to-br from-indigo-950/40 via-indigo-900/30 to-blue-900/30 border border-white/20 shadow-2xl shadow-indigo-500/20">
-        <div className="relative w-64 h-48 bg-gradient-to-br from-indigo-950/40 to-blue-950/40">
+        <div className="relative w-[360px] h-[270px] bg-gradient-to-br from-indigo-950/40 to-blue-950/40">
           {isActive ? (
             <>
               <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover" />
