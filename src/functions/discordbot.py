@@ -12,7 +12,7 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     
     # Play funny sound effect when detection happens
     try:
-        playsound("alert.mp3")  # Make sure alert.mp3 is in the same folder as this file
+        playsound("/Users/tanayj/GoonHacks/src/functions/alert.mp3")
     except:
         print("⚠️ Could not play sound file")
     
