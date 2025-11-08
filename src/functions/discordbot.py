@@ -13,7 +13,7 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     
     #List of sounds to loop through
 
-    sounds = ["sounds/alert.mp3", "sounds/alert1.mp3", "sounds/alert2.mp3", "sounds/alert3.mp3"]
+    sounds = ["alert.mp3", "alert1.mp3", "alert2.mp3", "alert3.mp3"]
 
 # Play funny sound effect when detection happens
     try:
