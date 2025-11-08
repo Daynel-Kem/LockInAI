@@ -28,7 +28,7 @@ def play_alarm_and_funny():
             random_sound = random.choice(funny_sounds)
             funny = pygame.mixer.Sound(random_sound)
             funny.set_volume(1.0)
-            funny.play(loops=2)  # loops=2 → total 3 plays
+            funny.play(loops=1)  # loops=2 → total 3 plays
             print(f"Funny sound: {os.path.basename(random_sound)}")
 
             # give time for the loops to finish (depends on file length)

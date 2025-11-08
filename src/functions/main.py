@@ -7,6 +7,7 @@ import time
 import funnysounds
 import popup
 from filterUgly import chubbify_and_overlay_eyes
+import threading
 
 cooldownTime = 10
 volumeUpTime = 10
@@ -92,42 +93,37 @@ def get_gpt_caption(output, reason):
     return caption
 
 #main function 
+
 def you_got_caught(reason):
     global lastTrigger
     now = time.time()
-    if (now - lastTrigger >= cooldownTime):
+    if now - lastTrigger >= cooldownTime:
         lastTrigger = now
         print(f"You opened {reason}")
-        
+
+        # show popup + play sound immediately
         popup_path = os.path.join(os.path.dirname(__file__), "popup.py")
         subprocess.Popen([sys.executable, popup_path, reason])
         funnysounds.play_alarm_and_funny()
-        
-        #caption = get_gpt_caption(output, reason)
-        caption = "gpt disabled rn"
-        output = merge_screenshot_photo()
-        print(f"merged image saved at {output}")
-        discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
-        
+
+        # start image filter in background thread
+        def process_image():
+            output = merge_screenshot_photo()
+            print(f"merged image saved at {output}")
+            caption = "gpt disabled rn"
+            discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
+
+        threading.Thread(target=process_image, daemon=True).start()
+
+        # volume spam keeps running right away
         i = 0
-        while (i < volumeUpTime):
+        while i < volumeUpTime:
             system = platform.system()
             if system == "Windows":
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
-                pyautogui.press("volumeup")
+                for _ in range(12):
+                    pyautogui.press("volumeup")
             elif system == "Darwin":
                 os.system("osascript -e 'set volume output volume ((output volume of (get volume settings)) + 50)'")
-    
             time.sleep(timeBetweenPresses)
             i += timeBetweenPresses
         
