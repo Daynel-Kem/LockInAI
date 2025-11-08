@@ -1,4 +1,5 @@
 import requests
+from playsound import playsound
 
 def post_to_discord(event_type, confidence=None, image_path=None):
     """
@@ -9,8 +10,14 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     """
     WEBHOOK_URL = "https://discord.com/api/webhooks/1436744629197213817/_8njr0_0AjymTAvXMzup7pUF0eKFVxR-jJJgG2oN9XDKvLmif29RJ-XADMYr_Xc4k8_8"
     
+    # Play funny sound effect when detection happens
+    try:
+        playsound("alert.mp3")  # Make sure alert.mp3 is in the same folder as this file
+    except:
+        print("⚠️ Could not play sound file")
+    
     # Create message - replace underscores with spaces and capitalize
-    message = f" Detected **{event_type.replace('_', ' ').title()}**"
+    message = f"👀 Detected **{event_type.replace('_', ' ').title()}**"
     
     # Add confidence if provided
     if confidence:
@@ -31,12 +38,13 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     
     # Check if successful
     if response.status_code == 204 or response.status_code == 200:
-        print(f" Sent: {message}")
+        print(f"✅ Sent: {message}")
     else:
-        print(f" Error: {response.status_code} - {response.text}")
+        print(f"⚠️ Error: {response.status_code} - {response.text}")
 
 
 post_to_discord("yawn")
 post_to_discord("nose_picking", confidence=0.85, image_path="/Users/tanayj/Downloads/67.png")
+
 
 
