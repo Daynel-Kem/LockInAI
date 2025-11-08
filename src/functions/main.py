@@ -4,6 +4,7 @@ import discordbot
 from dotenv import load_dotenv
 from openai import OpenAI
 import time
+import funnysounds
 
 cooldownTime = 30
 volumeUpTime = 5
@@ -86,7 +87,7 @@ def you_got_caught(reason):
         #caption = get_gpt_caption(output, reason)
         caption = "gpt disabled rn"
         discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
-
+        funnysounds.play_funny_sound()
         i = 0
         while (i < volumeUpTime):
             system = platform.system()
