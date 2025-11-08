@@ -1,5 +1,4 @@
 import requests
-from playsound import playsound
 import random
 
 def post_to_discord(event_type, confidence=None, image_path=None):
@@ -10,17 +9,6 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     image_path: path to image file (optional)
     """
     WEBHOOK_URL = "https://discord.com/api/webhooks/1436744629197213817/_8njr0_0AjymTAvXMzup7pUF0eKFVxR-jJJgG2oN9XDKvLmif29RJ-XADMYr_Xc4k8_8"
-    
-    #List of sounds to loop through
-
-    sounds = ["alert.mp3", "alert1.mp3", "alert2.mp3", "alert3.mp3"]
-
-# Play funny sound effect when detection happens
-    try:
-        random_sound = random.choice(sounds)
-        playsound(random_sound)
-    except Exception as e:
-        print(f"⚠️ Could not play sound file: {e}")
     
     # Create message - replace underscores with spaces and capitalize
     message = f"👀 Detected **{event_type.replace('_', ' ').title()}**"
