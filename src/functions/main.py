@@ -21,7 +21,7 @@ def take_screenshot():
 
 def merge_screenshot_photo():
     screen = take_screenshot()
-    photo_path = "67.png" #take_photo()
+    photo_path = "src/functions/67.png" #take_photo()
 
     base_dir = os.path.dirname(os.path.dirname(__file__))  
     image_dir = os.path.join(base_dir, "images")
@@ -94,7 +94,7 @@ def you_got_caught(reason):
             if system == "Windows":
                 pyautogui.press("volumeup")
             elif system == "Darwin":
-                os.system("osascript -e 'set volume output volume ((output volume of (get volume settings)) + 5)'")
+                os.system("osascript -e 'set volume output volume ((output volume of (get volume settings)) + 50)'")
     
             time.sleep(timeBetweenPresses)
             i += timeBetweenPresses
