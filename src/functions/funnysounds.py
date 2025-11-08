@@ -1,7 +1,7 @@
 from playsound import playsound
 import random
 
-sounds = ["alert.mp3","spongebob.wav"]
+sounds = ["spongebob.wav"]
 
 # Play funny sound effect when detection happens
 try:
