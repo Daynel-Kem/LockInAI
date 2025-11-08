@@ -1,28 +1,28 @@
 from flask import Flask, jsonify
+from appLogic import MyApp
+from flask_socketio import SocketIO
 from flask_cors import CORS
-from appLogic import start, stop, MyApp
 
 app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 CORS(app)
 
-my_app = MyApp()
+detector = MyApp(socketio)
 
 @app.route("/start", methods=["POST"])
 def start():
-    my_app.start()
+    detector.start()
     return jsonify({"status": "started"}, 200)
 
 @app.route("/stop", methods=["POST"])
 def stop():
-    my_app.stop()
+    detector.stop()
     return jsonify({"status": "stopped"}, 200)
 
 @app.route("/status", methods=["GET"])
 def status():
-    return jsonify({"status": my_app.status if "running" else "stopped"})
-
-
+    return jsonify({"status": detector.status if "running" else "stopped"})
 
 
 if __name__ == "__main__":
-    app.run_app(app, port=8000)
+    socketio.run(app, host="0.0.0.0", port=5050, debug=True)

@@ -4,7 +4,8 @@ import popup, main, funnysounds, discordbot, filterUgly
 from ScreenDetection import get_active_window_title, check_for_banned_words
 
 class MyApp():
-    def __init__(self):
+    def __init__(self, socketio):
+        self.socketio = socketio
         self.status = False
         self.thread = None
 
@@ -16,7 +17,7 @@ class MyApp():
         self.status = True
 
         print("starting process")
-        self.thread = threading.Thread(target=self._process_loop)
+        self.thread = threading.Thread(target=self._process_loop, daemon=True)
         self.thread.start()
 
     # Run the actual process in a thread
@@ -31,6 +32,7 @@ class MyApp():
                 if (lastWord != word):
                     lastWord = word
                     main.you_got_caught(word)
+                    self.socketio.emit("change_detected", {"message": "Gooner Detected!"})
 
             time.sleep(0.1)
 
@@ -44,4 +46,4 @@ class MyApp():
         if self.thread:
             self.thread.join()
         print("Stopped")
-        
+    
