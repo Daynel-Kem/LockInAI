@@ -12,14 +12,15 @@ def play_funny_sound():
     sounds = [
         os.path.join(base_dir, "dexter.wav"),
         os.path.join(base_dir, "spongebob.wav")
+        os.path.join(base_dir, "phil.wav")
     ]
 
     try:
         random_sound = random.choice(sounds)
         print(f"🎵 Playing: {random_sound}")
         playsound(random_sound)
-        print("✅ Sound played successfully!")
+        print("Sound played successfully!")
     except Exception as e:
-        print(f"⚠️ Could not play sound file: {e}")
+        print(f"Could not play sound file: {e}")
 
 play_funny_sound()
