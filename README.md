@@ -5,4 +5,4 @@ go oner joy
 #Open CV
 #npm install
 #npm install next react react-dom
-#
+#pip install ultralytics
