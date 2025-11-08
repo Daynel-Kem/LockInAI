@@ -37,6 +37,6 @@ def post_to_discord(event_type, confidence=None, image_path=None):
 
 
 post_to_discord("yawn")
-post_to_discord("nose_picking", confidence=0.85, image_path = 67.png)
+post_to_discord("nose_picking", confidence=0.85, image_path = "67.png")
 
 
