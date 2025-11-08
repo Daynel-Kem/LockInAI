@@ -1,6 +1,7 @@
 import platform
 import pywinctl
 import time
+import main
 #install
 #pip install pywinctl pygetwindow
 
@@ -29,7 +30,7 @@ while True:
     else:
         if (lastWord != word):
             lastWord = word
-            print(f"Opened {word}")
+            main.you_got_caught(word)
 
 
     
