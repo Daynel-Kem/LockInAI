@@ -6,6 +6,7 @@ from openai import OpenAI
 import time
 import funnysounds
 import popup
+from filterUgly import chubbify_and_overlay_eyes
 
 cooldownTime = 10
 volumeUpTime = 10
@@ -19,11 +20,25 @@ def take_screenshot():
 
 #def take_photo():
     #blablabla
+def take_photo():
+    #take photo
+    photo_path = os.path.join(os.path.dirname(__file__), "67.png")
+    eyes_path = os.path.join(os.path.dirname(__file__), "crying.png")
+
+    base_dir = os.path.dirname(os.path.dirname(__file__))  
+    image_dir = os.path.join(base_dir, "images")
+    os.makedirs(image_dir, exist_ok=True)
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"screen_{timestamp}.png"
+    output_path = os.path.join(image_dir, filename)
+
+    chubbify_and_overlay_eyes(photo_path, eyes_path, output_path)
+    return output_path
+
 
 def merge_screenshot_photo():
     screen = take_screenshot()
-    photo_path = os.path.join(os.path.dirname(__file__), "67.png") #take_photo()
-
+    photo_path = take_photo()
     base_dir = os.path.dirname(os.path.dirname(__file__))  
     image_dir = os.path.join(base_dir, "images")
     os.makedirs(image_dir, exist_ok=True)
@@ -83,14 +98,15 @@ def you_got_caught(reason):
     if (now - lastTrigger >= cooldownTime):
         lastTrigger = now
         print(f"You opened {reason}")
-        output = merge_screenshot_photo()
-        print(f"merged image saved at {output}")
+        
         popup_path = os.path.join(os.path.dirname(__file__), "popup.py")
         subprocess.Popen([sys.executable, popup_path, reason])
         funnysounds.play_alarm_and_funny()
         
         #caption = get_gpt_caption(output, reason)
         caption = "gpt disabled rn"
+        output = merge_screenshot_photo()
+        print(f"merged image saved at {output}")
         discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
         
         i = 0
@@ -114,6 +130,7 @@ def you_got_caught(reason):
     
             time.sleep(timeBetweenPresses)
             i += timeBetweenPresses
+        
     #based on site maybe do different sound effects etc
     #takes output inputs into discord bot
 
