@@ -31,9 +31,9 @@ def post_to_discord(event_type, confidence=None, image_path=None):
     
     # Check if successful
     if response.status_code == 204 or response.status_code == 200:
-        print(f"✅ Sent: {message}")
+        print(f" Sent: {message}")
     else:
-        print(f"⚠️ Error: {response.status_code} - {response.text}")
+        print(f" Error: {response.status_code} - {response.text}")
 
 
 post_to_discord("yawn")
