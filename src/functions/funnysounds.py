@@ -13,6 +13,8 @@ def play_funny_sound():
         os.path.join(base_dir, "dexter.wav"),
         os.path.join(base_dir, "spongebob.wav")
         os.path.join(base_dir, "phil.wav")
+        os.path.join(base_dir, "strange.wav")
+        os.path.join(base_dir, "walter.wav")
     ]
 
     try:
