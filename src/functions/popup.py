@@ -52,7 +52,7 @@ def show_popup_gif(reason):
         update()
 
     # --- Auto-close after 3 seconds ---
-    popup.after(5000, popup.destroy)
+    popup.after(8000, popup.destroy)
     popup.mainloop()
 
 
