@@ -5,7 +5,7 @@ def play_funny_sound():
     """Plays a random funny sound"""
     try:
         print(f"Playing: spongebob.wav")
-        playsound("spongebob.wav")
+        playsound("src/functions/spongebob.wav")
         print("Sound played successfully!")
     except Exception as e:
         print(f"Could not play sound file: {e}")
