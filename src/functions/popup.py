@@ -72,25 +72,6 @@ def show_popup_gif(reason):
     popup.mainloop()
 
 
-def show_popup_different_gifs(reason):
-    """Shows different GIFs based on what they got caught doing"""
-    
-    popup = tk.Tk()
-    popup.attributes('-fullscreen', True)
-    popup.attributes('-topmost', True)
-    popup.configure(bg='black')
-    
-    base_dir = os.path.dirname(__file__)
-    
-    # Map reasons to different GIFs
-    gif_map = {
-        "youtube": "spongebob.gif",
-        "tiktok": "tiktok_caught.gif",
-        "instagram": "insta_caught.gif",
-        "porn": "bonk.gif",
-        "game": "gaming_caught.gif"
-    }
-    
     # Get the appropriate GIF or use default
     gif_filename = gif_map.get(reason.lower(), "caught.gif")
     gif_path = os.path.join(base_dir, gif_filename)
