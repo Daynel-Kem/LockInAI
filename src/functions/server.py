@@ -12,29 +12,22 @@ detector = MyApp(socketio)
 @app.route("/start", methods=["POST", "OPTIONS"])
 def start():
     if request.method == "OPTIONS":
-        return jsonify({"status": "ok"}), 200  # Preflight response
-
+        return jsonify({"status": "ok"}), 200
+    
     try:
+        print(f"🔹 RAW REQUEST BODY: {request.get_data()}")  # ADD THIS
         data = request.json
+        print(f"🔹 PARSED JSON: {data}")  # ADD THIS
         banned_words = data.get("banned")
         config = data.get("config")
-
-        """
-        Json bodies should be in the form of
-            {
-                "banned": [array of strings]
-                "config": [bool, bool, bool]
-            }
-        where [bool, bool, bool] = [nose, yawn, nail]
-        and   [array of strings] = [list of banned words]
-        """
-
-        print(banned_words, config)
+        print(f"🔹 BANNED: {banned_words}")  # ADD THIS
+        print(f"🔹 CONFIG: {config}")  # ADD THIS
+        
         detector.start(banned_words, config)
-        return jsonify({"status": "started"}, 200)
+        return jsonify({"status": "started"}), 200
     except Exception as e:
         print("error has occured: ", e)
-        return jsonify({"error": e}), 500
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/stop", methods=["POST", "OPTIONS"])
 def stop():
