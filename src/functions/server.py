@@ -4,14 +4,17 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 detector = MyApp(socketio)
 
-@app.route("/start", methods=["POST"])
+@app.route("/start", methods=["POST", "OPTIONS"])
 def start():
     try:
+        if request.method == "OPTIONS":
+            return jsonify({"message": "we trolled"}), 200
+
         data = request.json
         banned_words = data.get("banned")
         config = data.get("config")
@@ -28,7 +31,7 @@ def start():
 
         print(banned_words, config)
         detector.start(banned_words, config)
-        return jsonify({"status": "started"}, 200)
+        return jsonify({"status": "started"}), 200
     except Exception as e:
         return jsonify({"error": e}, 400)
 
@@ -36,9 +39,9 @@ def start():
 def stop():
     try:
         detector.stop()
-        return jsonify({"status": "stopped"}, 200)
+        return jsonify({"status": "stopped"}), 200
     except Exception as e:
-        return jsonify({"error": e}, 400)
+        return jsonify({"error": e}), 400
 
 @app.route("/status", methods=["GET"])
 def status():
