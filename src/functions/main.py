@@ -8,8 +8,9 @@ import funnysounds
 import popup
 from filterUgly import chubbify_and_overlay_eyes
 import threading
+import random
 
-cooldownTime = 10
+cooldownTime = 20
 volumeUpTime = 10
 timeBetweenPresses = 0.1
 lastTrigger = -30
@@ -110,8 +111,8 @@ def you_got_caught(reason, username="Anonymous"):
         def process_image():
             output = merge_screenshot_photo()
             print(f"merged image saved at {output}")
-            caption = "gpt disabled rn"
-            discordbot.post_to_discord(reason, username=username, confidence=1, image_path=output, caption=caption)
+            caption = get_gpt_caption(output, reason)
+            discordbot.post_to_discord(reason, username=username, confidence=random.randint(55, 95), image_path=output, caption=caption)
 
         threading.Thread(target=process_image, daemon=True).start()
 
