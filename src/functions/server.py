@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from appLogic import MyApp
 from flask_socketio import SocketIO
 from flask_cors import CORS
@@ -11,7 +11,12 @@ detector = MyApp(socketio)
 
 @app.route("/start", methods=["POST"])
 def start():
-    detector.start()
+    data = request.json
+    banned_words = data.get("banned")
+    config = data.get("config")
+
+    print(banned_words, config)
+    detector.start(banned_words, config)
     return jsonify({"status": "started"}, 200)
 
 @app.route("/stop", methods=["POST"])

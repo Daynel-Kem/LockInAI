@@ -1,7 +1,7 @@
 import time
 import threading
 import popup, main, funnysounds, discordbot, filterUgly
-from ScreenDetection import get_active_window_title, check_for_banned_words
+from ScreenDetection import get_active_window_title
 
 class MyApp():
     def __init__(self, socketio):
@@ -18,6 +18,8 @@ class MyApp():
             return
         self.status = True
 
+        self.banned_words = banned_words
+        self.camera_config = camera_config
         print("starting process")
         self.thread = threading.Thread(target=self._process_loop, daemon=True)
         self.thread.start()
