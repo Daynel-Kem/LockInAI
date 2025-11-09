@@ -15,7 +15,17 @@ def start():
     banned_words = data.get("banned")
     config = data.get("config")
 
-    print(banned_words, config)
+    """
+    Json bodies should be in the form of
+        {
+            "banned": [array of strings]
+            "config": [bool, bool, bool]
+        }
+    where [bool, bool, bool] = [nose, yawn, nail]
+    and   [array of strings] = [list of banned words]
+    """
+
+    #print(banned_words, config)
     detector.start(banned_words, config)
     return jsonify({"status": "started"}, 200)
 
