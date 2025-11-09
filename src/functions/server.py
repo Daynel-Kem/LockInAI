@@ -21,7 +21,7 @@ def stop():
 
 @app.route("/status", methods=["GET"])
 def status():
-    return jsonify({"status": detector.status if "running" else "stopped"})
+    return jsonify({"status": "running" if detector.status else "stopped"})
 
 
 if __name__ == "__main__":

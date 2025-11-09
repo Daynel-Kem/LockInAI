@@ -1,6 +1,5 @@
 # Live Camera Config
 nose_picking = True
-gooning = True
 yawning = True
 nail_biting = True
 
@@ -11,8 +10,14 @@ CAMERA_CONFIG = [nose_picking, gooning, yawning, nail_biting]
 # Setters
 # [list of strings]
 def set_banned_words(words):
-    bannedWords = words
+    BANNED_WORDS_LIST = words
+
+def get_banned_words():
+    return BANNED_WORDS_LIST
 
 # Four Booleans 
-def set_camera_config(nose, goon, yawn, nail):
-    CAMERA_CONFIG = [nose, goon, yawn, nail]
+def set_camera_config(nose, yawn, nail):
+    CAMERA_CONFIG = [nose, yawn, nail]
+
+def get_camera_config():
+    return CAMERA_CONFIG
