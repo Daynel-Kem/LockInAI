@@ -4,44 +4,35 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
+CORS(app)
 
 detector = MyApp(socketio)
 
-@app.route("/start", methods=["POST", "OPTIONS"])
+@app.route("/start", methods=["POST"])
 def start():
-    try:
-        if request.method == "OPTIONS":
-            return jsonify({"message": "we trolled"}), 200
+    data = request.json
+    banned_words = data.get("banned")
+    config = data.get("config")
 
-        data = request.json
-        banned_words = data.get("banned")
-        config = data.get("config")
+    """
+    Json bodies should be in the form of
+        {
+            "banned": [array of strings]
+            "config": [bool, bool, bool]
+        }
+    where [bool, bool, bool] = [nose, yawn, nail]
+    and   [array of strings] = [list of banned words]
+    """
 
-        """
-        Json bodies should be in the form of
-            {
-                "banned": [array of strings]
-                "config": [bool, bool, bool]
-            }
-        where [bool, bool, bool] = [nose, yawn, nail]
-        and   [array of strings] = [list of banned words]
-        """
-
-        print(banned_words, config)
-        detector.start(banned_words, config)
-        return jsonify({"status": "started"}), 200
-    except Exception as e:
-        return jsonify({"error": e}, 400)
+    #print(banned_words, config)
+    detector.start(banned_words, config)
+    return jsonify({"status": "started"}, 200)
 
 @app.route("/stop", methods=["POST"])
 def stop():
-    try:
-        detector.stop()
-        return jsonify({"status": "stopped"}), 200
-    except Exception as e:
-        return jsonify({"error": e}), 400
+    detector.stop()
+    return jsonify({"status": "stopped"}, 200)
 
 @app.route("/status", methods=["GET"])
 def status():

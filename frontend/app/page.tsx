@@ -43,6 +43,8 @@ export default function Home() {
                 console.log("Restricted sites:", websites);
                 try {
                   if (newState) {
+                    console.log(websites);
+                    console.log(activeHabits);
                     await fetch("http://localhost:5050/start", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
