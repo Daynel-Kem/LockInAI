@@ -124,15 +124,18 @@ export function Leaderboard() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 animate-slide-up">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Leaderboard</h2>
+        <div className="flex items-center gap-3">
+          <div className="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></div>
+          <h2 className="text-2xl font-bold text-white">Leaderboard</h2>
+        </div>
 
         {/* Event Type Filter */}
         <select
           value={selectedEventType}
           onChange={(e) => setSelectedEventType(e.target.value)}
-          className="px-4 py-2 backdrop-blur-xl bg-white/5 border border-white/20 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
+          className="px-5 py-2.5 backdrop-blur-xl bg-white/5 border border-white/20 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all hover:bg-white/10 hover:border-white/30 cursor-pointer"
         >
           <option value="all">All Events</option>
           {eventTypes.map((type) => (
@@ -144,7 +147,7 @@ export function Leaderboard() {
       </div>
 
       <Card
-        className="p-8 backdrop-blur-xl bg-gradient-to-br from-purple-950/40 via-purple-900/30 to-pink-900/30 border border-white/20 shadow-2xl shadow-purple-500/20 rounded-2xl overflow-hidden relative"
+        className="p-8 backdrop-blur-xl bg-gradient-to-br from-purple-950/40 via-purple-900/30 to-pink-900/30 border border-white/20 shadow-2xl shadow-purple-500/20 rounded-2xl overflow-hidden relative transition-all duration-300 hover:shadow-purple-500/30 hover:border-white/30"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
@@ -161,19 +164,25 @@ export function Leaderboard() {
 
         <div className="space-y-1 relative z-10">
           {leaderboard.length === 0 ? (
-            <div className="text-center py-8 text-white/60">
-              No detections yet. Start monitoring to see the leaderboard!
+            <div className="text-center py-12">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                <svg className="w-8 h-8 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              </div>
+              <p className="text-white/60 text-base">No detections yet</p>
+              <p className="text-white/40 text-sm mt-2">Start monitoring to see the leaderboard!</p>
             </div>
           ) : (
             leaderboard.map((entry, index) => (
               <div key={entry.username}>
-                <div className="flex items-center justify-between py-4 px-4 rounded-lg hover:bg-gradient-to-r hover:from-purple-500/20 hover:to-pink-500/20 transition-all hover:shadow-lg hover:shadow-purple-500/30 group">
+                <div className="flex items-center justify-between py-4 px-5 rounded-xl hover:bg-gradient-to-r hover:from-purple-500/20 hover:to-pink-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 group">
                   <div className="flex items-center gap-4">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                      index === 0 ? "bg-yellow-500 text-yellow-900" :
-                      index === 1 ? "bg-gray-300 text-gray-700" :
-                      index === 2 ? "bg-orange-600 text-orange-100" :
-                      "bg-white/10 text-white/60"
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-base shadow-lg transition-transform group-hover:scale-110 ${
+                      index === 0 ? "bg-gradient-to-br from-yellow-400 to-yellow-600 text-yellow-900 shadow-yellow-500/50" :
+                      index === 1 ? "bg-gradient-to-br from-gray-300 to-gray-400 text-gray-700 shadow-gray-400/50" :
+                      index === 2 ? "bg-gradient-to-br from-orange-500 to-orange-700 text-orange-100 shadow-orange-500/50" :
+                      "bg-white/10 text-white/60 shadow-white/10"
                     }`}>
                       {index + 1}
                     </div>
@@ -188,11 +197,13 @@ export function Leaderboard() {
                   </div>
 
                   <div className="text-right">
-                    <div className="text-lg font-bold text-white">
-                      {entry.detection_count}
+                    <div className="flex items-center gap-2">
+                      <div className="text-2xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+                        {entry.detection_count}
+                      </div>
                     </div>
-                    <div className="text-xs text-white/50">
-                      catches
+                    <div className="text-xs text-white/50 font-medium">
+                      {entry.detection_count === 1 ? 'catch' : 'catches'}
                     </div>
                   </div>
                 </div>
@@ -206,31 +217,49 @@ export function Leaderboard() {
       </Card>
 
       {/* Recent Activity */}
-      <h2 className="text-2xl font-bold text-white mt-8">Recent Activity</h2>
-      <Card className="p-6 backdrop-blur-xl bg-gradient-to-br from-indigo-950/40 via-indigo-900/30 to-blue-900/30 border border-white/20 shadow-2xl shadow-indigo-500/20 rounded-2xl">
-        <div className="space-y-3">
+      <div className="flex items-center gap-3 mt-8">
+        <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full"></div>
+        <h2 className="text-2xl font-bold text-white">Recent Activity</h2>
+      </div>
+      <Card className="p-6 backdrop-blur-xl bg-gradient-to-br from-blue-950/40 via-cyan-950/30 to-indigo-950/40 border border-white/20 shadow-2xl shadow-blue-500/15 rounded-2xl transition-all duration-300 hover:shadow-blue-500/25 hover:border-white/30">
+        <div className="space-y-2">
           {recentDetections.length === 0 ? (
-            <div className="text-center py-4 text-white/60">
-              No recent activity
+            <div className="text-center py-8">
+              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                <svg className="w-6 h-6 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <p className="text-white/60 text-sm">No recent activity</p>
             </div>
           ) : (
             recentDetections.map((detection, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
+                className="flex items-center justify-between py-3 px-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 transition-all duration-300 border border-white/10 hover:border-white/20 group"
               >
                 <div className="flex items-center gap-3">
-                  <span className="font-medium text-white/90">
-                    {detection.username}
-                  </span>
-                  <span className="text-white/50">→</span>
-                  <span className="text-white/70">
-                    {detection.event_type.replace('_', ' ')}
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/30 to-cyan-500/30 flex items-center justify-center">
+                    <span className="text-xs font-bold text-white">{detection.username[0].toUpperCase()}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-white/90 group-hover:text-white transition-colors">
+                      {detection.username}
+                    </span>
+                    <span className="text-white/40">•</span>
+                    <span className="text-white/70 text-sm">
+                      {detection.event_type.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="px-2 py-1 rounded-md bg-blue-500/20 text-blue-300 text-xs font-semibold">
+                    {Math.round(detection.confidence * 100)}%
+                  </div>
+                  <span className="text-xs text-white/50 font-medium">
+                    {formatTimestamp(detection.timestamp)}
                   </span>
                 </div>
-                <span className="text-xs text-white/50">
-                  {formatTimestamp(detection.timestamp)}
-                </span>
               </div>
             ))
           )}

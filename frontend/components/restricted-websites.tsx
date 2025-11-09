@@ -64,11 +64,14 @@ export function RestrictedWebsites({ websites, setWebsites }) {
   }, [mousePosition, isHovering])
 
   return (
-    <div className="space-y-5">
-      <h2 className="text-2xl font-bold text-white">Restricted Websites</h2>
+    <div className="space-y-5 animate-slide-up">
+      <div className="flex items-center gap-3">
+        <div className="w-1 h-8 bg-gradient-to-b from-red-500 to-orange-500 rounded-full"></div>
+        <h2 className="text-2xl font-bold text-white">Blocked Websites</h2>
+      </div>
 
       <Card
-        className="p-8 backdrop-blur-xl bg-gradient-to-br from-indigo-950/40 via-indigo-900/30 to-blue-900/30 border border-white/20 shadow-2xl shadow-indigo-500/20 rounded-2xl overflow-hidden relative"
+        className="p-8 backdrop-blur-xl bg-gradient-to-br from-red-950/30 via-orange-950/20 to-rose-950/30 border border-white/20 shadow-2xl shadow-red-500/15 rounded-2xl overflow-hidden relative transition-all duration-300 hover:shadow-red-500/25 hover:border-white/30"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
@@ -77,7 +80,7 @@ export function RestrictedWebsites({ websites, setWebsites }) {
           <div
             className="pointer-events-none absolute inset-0"
             style={{
-              background: `radial-gradient(ellipse 400px 240px at ${smoothPosition.x}px ${smoothPosition.y}px, rgba(255, 255, 255, 0.15), rgba(199, 210, 254, 0.2) 20%, rgba(99, 102, 241, 0.25) 40%, rgba(67, 56, 202, 0.15) 60%, rgba(55, 48, 163, 0.08) 80%, transparent 100%)`,
+              background: `radial-gradient(ellipse 400px 240px at ${smoothPosition.x}px ${smoothPosition.y}px, rgba(255, 255, 255, 0.15), rgba(254, 202, 202, 0.2) 20%, rgba(239, 68, 68, 0.25) 40%, rgba(220, 38, 38, 0.15) 60%, rgba(185, 28, 28, 0.08) 80%, transparent 100%)`,
               transition: "opacity 0.3s ease-in-out",
             }}
           />
@@ -88,11 +91,11 @@ export function RestrictedWebsites({ websites, setWebsites }) {
             {websites.map((website, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-500/10 to-blue-500/10 backdrop-blur-sm rounded-xl hover:from-indigo-500/20 hover:to-blue-500/20 hover:shadow-lg hover:shadow-indigo-500/30 transition-all group border border-white/10"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-red-500/10 to-orange-500/10 backdrop-blur-sm rounded-xl hover:from-red-500/20 hover:to-orange-500/20 hover:shadow-lg hover:shadow-red-500/30 transition-all group border border-white/10"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500/30 to-blue-500/30 flex items-center justify-center border border-white/20 group-hover:from-indigo-500/40 group-hover:to-blue-500/40 transition-all">
-                    <Globe className="w-5 h-5 text-indigo-300" />
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-500/30 to-orange-500/30 flex items-center justify-center border border-white/20 group-hover:from-red-500/40 group-hover:to-orange-500/40 transition-all">
+                    <Globe className="w-5 h-5 text-red-300" />
                   </div>
                   <span className="text-white/90 font-medium text-base group-hover:text-white transition-colors">
                     {website}

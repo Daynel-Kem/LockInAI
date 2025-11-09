@@ -46,16 +46,24 @@ export function WebcamFeed() {
   }, [])
 
   return (
-    <div className="fixed top-8 right-8 z-50">
-      <div className="overflow-hidden rounded-2xl backdrop-blur-xl bg-gradient-to-br from-indigo-950/40 via-indigo-900/30 to-blue-900/30 border border-white/20 shadow-2xl shadow-indigo-500/20">
-        <div className="relative w-[360px] h-[270px] bg-gradient-to-br from-indigo-950/40 to-blue-950/40">
+    <div className="fixed top-8 right-8 z-50 animate-fade-in">
+      <div className="overflow-hidden rounded-2xl backdrop-blur-xl bg-gradient-to-br from-indigo-950/60 via-indigo-900/50 to-blue-900/60 border-2 border-white/30 shadow-2xl shadow-indigo-500/30 transition-all duration-300 hover:shadow-indigo-500/50 hover:scale-[1.02]">
+        <div className="relative w-[360px] h-[270px] bg-gradient-to-br from-indigo-950/40 to-blue-950/40 overflow-hidden">
+          {/* Animated border effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 opacity-20 animate-pulse"></div>
           {isActive ? (
             <>
-              <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover" />
-              <div className="absolute top-3 left-3 flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 backdrop-blur-sm text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow-lg shadow-green-500/40">
-                <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                Live
+              <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover relative z-10" />
+
+              {/* Recording indicator */}
+              <div className="absolute top-4 left-4 flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 backdrop-blur-md text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg shadow-green-500/50 border border-white/30">
+                <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-lg shadow-white/50" />
+                LIVE MONITORING
               </div>
+
+              {/* Corner accent */}
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-indigo-500/30 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-blue-500/30 to-transparent"></div>
             </>
           ) : error ? (
             <div className="w-full h-full flex flex-col items-center justify-center text-white/60">
@@ -69,10 +77,25 @@ export function WebcamFeed() {
             </div>
           )}
         </div>
-        <div className="bg-gradient-to-r from-indigo-900/40 to-blue-900/40 backdrop-blur-sm px-5 py-4 border-t border-white/20">
+
+        {/* Stats panel */}
+        <div className="bg-gradient-to-r from-indigo-900/60 via-purple-900/50 to-blue-900/60 backdrop-blur-md px-6 py-4 border-t-2 border-white/30">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-white/70 font-medium">Distractions Detected:</span>
-            <span className="text-sm font-semibold text-white/90">{distractionCount}</span>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
+              <span className="text-sm text-white/80 font-semibold">Distractions Today</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">{distractionCount}</span>
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="mt-3 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-500"
+              style={{ width: `${Math.min((distractionCount / 10) * 100, 100)}%` }}
+            ></div>
           </div>
         </div>
       </div>

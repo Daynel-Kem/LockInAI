@@ -18,18 +18,31 @@ export default function Home() {
     "youtube", "twitter", "instagram", "tiktok"
   ]);
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0e27] via-[#1a1f3a] to-[#0f1429]">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0e27] via-[#1a1f3a] to-[#0f1429] relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-4000"></div>
+      </div>
+
       {/* Fixed Webcam in top right */}
       <WebcamFeed />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-8 py-12 pr-[340px]">
-        <div className="flex items-center justify-between mb-12">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">L</span>
+      <main className="max-w-7xl mx-auto px-8 py-12 pr-[340px] relative z-10">
+        <div className="flex items-center justify-between mb-12 animate-fade-in">
+          <div className="flex items-center gap-4 group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-blue-600 flex items-center justify-center shadow-2xl shadow-indigo-500/50 transition-all duration-300 group-hover:shadow-indigo-500/80 group-hover:scale-105 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <svg className="w-8 h-8 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
             </div>
-            <h1 className="text-3xl font-bold text-white">LockIn AI</h1>
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-indigo-100 to-purple-200 bg-clip-text text-transparent">LockIn AI</h1>
+              <p className="text-sm text-white/50 font-medium">Stay focused. Stay productive.</p>
+            </div>
           </div>
 
           <div className="flex items-center gap-4">
@@ -38,7 +51,7 @@ export default function Home() {
               placeholder="Enter your username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="px-4 py-2.5 backdrop-blur-xl bg-white/5 border border-white/20 text-white placeholder-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
+              className="px-5 py-3 backdrop-blur-xl bg-white/5 border border-white/20 text-white placeholder-white/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-white/10 transition-all hover:border-white/30"
             />
 
             <button
@@ -80,16 +93,28 @@ export default function Home() {
                   console.error("Error:", error);
                 }
               }}
-              className={`px-6 py-2.5 backdrop-blur-xl border border-white/20 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg ${
+              className={`px-8 py-3 backdrop-blur-xl border border-white/20 text-white font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 ${
                 isMonitoring
-                  ? "bg-gradient-to-br from-red-950/40 via-red-900/30 to-rose-900/30 hover:from-red-950/60 hover:via-red-900/50 hover:to-rose-900/50 shadow-red-500/20 hover:shadow-red-500/30"
-                  : "bg-gradient-to-br from-green-950/40 via-green-900/30 to-emerald-900/30 hover:from-green-950/60 hover:via-green-900/50 hover:to-emerald-900/50 shadow-green-500/20 hover:shadow-green-500/30"
+                  ? "bg-gradient-to-br from-red-500/30 via-red-600/20 to-rose-600/30 hover:from-red-500/50 hover:via-red-600/40 hover:to-rose-600/50 shadow-red-500/30 hover:shadow-red-500/50"
+                  : "bg-gradient-to-br from-green-500/30 via-green-600/20 to-emerald-600/30 hover:from-green-500/50 hover:via-green-600/40 hover:to-emerald-600/50 shadow-green-500/30 hover:shadow-green-500/50"
               }`}
             >
-              {isMonitoring ? "Stop" : "Start"}
+              <span className="flex items-center gap-2">
+                {isMonitoring ? (
+                  <>
+                    <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></span>
+                    Stop Monitoring
+                  </>
+                ) : (
+                  <>
+                    <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                    Start Monitoring
+                  </>
+                )}
+              </span>
             </button>
 
-            <button className="px-6 py-2.5 backdrop-blur-xl bg-gradient-to-br from-indigo-950/40 via-indigo-900/30 to-blue-900/30 border border-white/20 hover:from-indigo-950/60 hover:via-indigo-900/50 hover:to-blue-900/50 text-white font-bold rounded-lg transition-all shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30">
+            <button className="px-6 py-3 backdrop-blur-xl bg-gradient-to-br from-indigo-500/20 via-indigo-600/10 to-blue-600/20 border border-white/20 hover:from-indigo-500/40 hover:via-indigo-600/30 hover:to-blue-600/40 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/20 hover:shadow-2xl hover:shadow-indigo-500/40 hover:scale-105">
               Connect to Social Media
             </button>
           </div>

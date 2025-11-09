@@ -60,11 +60,14 @@ export function HabitToggles({ enabledHabits,setEnabledHabits }) {
   }, [mousePosition, isHovering])
 
   return (
-    <div className="space-y-5">
-      <h2 className="text-2xl font-bold text-white">Habits</h2>
+    <div className="space-y-5 animate-slide-up">
+      <div className="flex items-center gap-3">
+        <div className="w-1 h-8 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full"></div>
+        <h2 className="text-2xl font-bold text-white">Monitored Habits</h2>
+      </div>
 
       <Card
-        className="p-8 backdrop-blur-xl bg-gradient-to-br from-indigo-950/40 via-indigo-900/30 to-blue-900/30 border border-white/20 shadow-2xl shadow-indigo-500/20 rounded-2xl overflow-hidden relative"
+        className="p-8 backdrop-blur-xl bg-gradient-to-br from-indigo-950/40 via-indigo-900/30 to-blue-900/30 border border-white/20 shadow-2xl shadow-indigo-500/20 rounded-2xl overflow-hidden relative transition-all duration-300 hover:shadow-indigo-500/30 hover:border-white/30"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
