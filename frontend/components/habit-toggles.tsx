@@ -13,12 +13,8 @@ const HABITS = [
   { id: "nose-picking", label: "Nose Picking" },
 ]
 
-export function HabitToggles() {
-  const [enabledHabits, setEnabledHabits] = useState<Record<string, boolean>>({
-    "nail-biting": true,
-    yawning: true,
-    "nose-picking": false,
-  })
+export function HabitToggles({ enabledHabits,setEnabledHabits }) {
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [smoothPosition, setSmoothPosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)

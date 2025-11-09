@@ -6,7 +6,15 @@ import { useState } from "react"
 
 export default function Home() {
   const [isMonitoring, setIsMonitoring] = useState(false)
+  const [enabledHabits, setEnabledHabits] = useState({
+    "nail-biting": true,
+    yawning: true,
+    "nose-picking": false,
+  });
 
+  const [websites, setWebsites] = useState([
+    "youtube.com", "twitter.com", "instagram.com", "tiktok.com"
+  ]);
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0e27] via-[#1a1f3a] to-[#0f1429]">
       {/* Fixed Webcam in top right */}
@@ -24,7 +32,35 @@ export default function Home() {
 
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setIsMonitoring(!isMonitoring)}
+              onClick={async() => {
+                const newState = !isMonitoring
+                setIsMonitoring(newState)
+                const activeHabits = Object.entries(enabledHabits)
+                  .filter(([_, value]) => value)
+                  .map(([key]) => key);
+
+                console.log("Active habits:", activeHabits);
+                console.log("Restricted sites:", websites);
+                try {
+                  if (newState) {
+                    await fetch("http://localhost:5050/start", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        banned: websites,
+                        config: activeHabits,
+                      }),
+                    });
+                  } else {
+                    await fetch("http://localhost:5050/stop", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                    });
+                  }
+                } catch (error) {
+                  console.error("Error:", error);
+                }
+              }}
               className={`px-6 py-2.5 backdrop-blur-xl border border-white/20 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg ${
                 isMonitoring
                   ? "bg-gradient-to-br from-red-950/40 via-red-900/30 to-rose-900/30 hover:from-red-950/60 hover:via-red-900/50 hover:to-rose-900/50 shadow-red-500/20 hover:shadow-red-500/30"
@@ -42,10 +78,10 @@ export default function Home() {
 
         <div className="space-y-8">
           {/* Habits Section */}
-          <HabitToggles />
+          <HabitToggles enabledHabits={enabledHabits} setEnabledHabits={setEnabledHabits} />
 
           {/* Restricted Websites Section */}
-          <RestrictedWebsites />
+          <RestrictedWebsites websites={websites} setWebsites={setWebsites} />
         </div>
       </main>
     </div>

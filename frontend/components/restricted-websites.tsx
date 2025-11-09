@@ -10,8 +10,8 @@ import { X, Plus, Globe } from "lucide-react"
 
 const INITIAL_WEBSITES = ["youtube.com", "twitter.com", "instagram.com", "tiktok.com"]
 
-export function RestrictedWebsites() {
-  const [websites, setWebsites] = useState<string[]>(INITIAL_WEBSITES)
+export function RestrictedWebsites({ websites, setWebsites }) {
+
   const [inputValue, setInputValue] = useState("")
   const [isAdding, setIsAdding] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
