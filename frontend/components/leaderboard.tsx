@@ -147,7 +147,7 @@ export function Leaderboard() {
       </div>
 
       <Card
-        className="p-8 backdrop-blur-xl bg-gradient-to-br from-purple-950/40 via-purple-900/30 to-pink-900/30 border border-white/20 shadow-2xl shadow-purple-500/20 rounded-2xl overflow-hidden relative transition-all duration-300 hover:shadow-purple-500/30 hover:border-white/30"
+        className="p-8 backdrop-blur-xl bg-gradient-to-br from-purple-950/35 via-purple-900/25 to-pink-900/30 border border-white/15 shadow-xl shadow-purple-500/15 rounded-2xl overflow-hidden relative transition-all duration-500 hover:shadow-purple-500/20 hover:border-white/25"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
@@ -221,7 +221,7 @@ export function Leaderboard() {
         <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full"></div>
         <h2 className="text-2xl font-bold text-white">Recent Activity</h2>
       </div>
-      <Card className="p-6 backdrop-blur-xl bg-gradient-to-br from-blue-950/40 via-cyan-950/30 to-indigo-950/40 border border-white/20 shadow-2xl shadow-blue-500/15 rounded-2xl transition-all duration-300 hover:shadow-blue-500/25 hover:border-white/30">
+      <Card className="p-6 backdrop-blur-xl bg-gradient-to-br from-blue-950/35 via-cyan-950/25 to-indigo-950/35 border border-white/15 shadow-xl shadow-blue-500/12 rounded-2xl transition-all duration-500 hover:shadow-blue-500/18 hover:border-white/25">
         <div className="space-y-2">
           {recentDetections.length === 0 ? (
             <div className="text-center py-8">

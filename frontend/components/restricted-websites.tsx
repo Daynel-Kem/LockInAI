@@ -71,7 +71,7 @@ export function RestrictedWebsites({ websites, setWebsites }) {
       </div>
 
       <Card
-        className="p-8 backdrop-blur-xl bg-gradient-to-br from-red-950/30 via-orange-950/20 to-rose-950/30 border border-white/20 shadow-2xl shadow-red-500/15 rounded-2xl overflow-hidden relative transition-all duration-300 hover:shadow-red-500/25 hover:border-white/30"
+        className="p-8 backdrop-blur-xl bg-gradient-to-br from-red-950/25 via-orange-950/18 to-rose-950/25 border border-white/15 shadow-xl shadow-red-500/12 rounded-2xl overflow-hidden relative transition-all duration-500 hover:shadow-red-500/18 hover:border-white/25"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}

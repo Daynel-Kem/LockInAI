@@ -67,7 +67,7 @@ export function HabitToggles({ enabledHabits,setEnabledHabits }) {
       </div>
 
       <Card
-        className="p-8 backdrop-blur-xl bg-gradient-to-br from-indigo-950/40 via-indigo-900/30 to-blue-900/30 border border-white/20 shadow-2xl shadow-indigo-500/20 rounded-2xl overflow-hidden relative transition-all duration-300 hover:shadow-indigo-500/30 hover:border-white/30"
+        className="p-8 backdrop-blur-xl bg-gradient-to-br from-indigo-950/35 via-indigo-900/25 to-blue-900/30 border border-white/15 shadow-xl shadow-indigo-500/15 rounded-2xl overflow-hidden relative transition-all duration-500 hover:shadow-indigo-500/20 hover:border-white/25"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
