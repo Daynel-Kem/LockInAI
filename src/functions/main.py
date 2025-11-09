@@ -94,12 +94,12 @@ def get_gpt_caption(output, reason):
 
 #main function 
 
-def you_got_caught(reason):
+def you_got_caught(reason, username="Anonymous"):
     global lastTrigger
     now = time.time()
     if now - lastTrigger >= cooldownTime:
         lastTrigger = now
-        print(f"You opened {reason}")
+        print(f"{username} opened {reason}")
 
         # show popup + play sound immediately
         popup_path = os.path.join(os.path.dirname(__file__), "popup.py")
@@ -111,7 +111,7 @@ def you_got_caught(reason):
             output = merge_screenshot_photo()
             print(f"merged image saved at {output}")
             caption = "gpt disabled rn"
-            discordbot.post_to_discord(reason, confidence=1, image_path=output, caption=caption)
+            discordbot.post_to_discord(reason, username=username, confidence=1, image_path=output, caption=caption)
 
         threading.Thread(target=process_image, daemon=True).start()
 

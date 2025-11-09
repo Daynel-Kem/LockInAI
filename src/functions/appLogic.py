@@ -10,9 +10,10 @@ class MyApp():
         self.thread = None
         self.banned_words = []
         self.camera_config = []
+        self.username = "Anonymous"
 
     # Starts the App
-    def start(self, banned_words, camera_config):
+    def start(self, banned_words, camera_config, username="Anonymous"):
         if self.status:
             print("already running")
             return
@@ -20,7 +21,8 @@ class MyApp():
 
         self.banned_words = banned_words
         self.camera_config = camera_config
-        print("starting process")
+        self.username = username
+        print(f"starting process for user: {username}")
         self.thread = threading.Thread(target=self._process_loop, daemon=True)
         self.thread.start()
 
@@ -44,7 +46,7 @@ class MyApp():
             else:
                 if (lastWord != word):
                     lastWord = word
-                    main.you_got_caught(word)
+                    main.you_got_caught(word, self.username)
                     self.socketio.emit("change_detected", {"message": "Gooner Detected!"})
 
             time.sleep(0.1)

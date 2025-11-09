@@ -2,10 +2,12 @@
 import { WebcamFeed } from "@/components/webcam-feed"
 import { HabitToggles } from "@/components/habit-toggles"
 import { RestrictedWebsites } from "@/components/restricted-websites"
+import { Leaderboard } from "@/components/leaderboard"
 import { useState } from "react"
 
 export default function Home() {
   const [isMonitoring, setIsMonitoring] = useState(false)
+  const [username, setUsername] = useState("")
   const [enabledHabits, setEnabledHabits] = useState({
     "nail-biting": true,
     yawning: true,
@@ -31,8 +33,21 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="px-4 py-2.5 backdrop-blur-xl bg-white/5 border border-white/20 text-white placeholder-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
+            />
+
             <button
               onClick={async() => {
+                if (!username.trim()) {
+                  alert("Please enter a username first!");
+                  return;
+                }
+
                 const newState = !isMonitoring
                 setIsMonitoring(newState)
                 const activeHabits = Object.entries(enabledHabits)
@@ -41,6 +56,7 @@ export default function Home() {
 
                 console.log("Active habits:", activeHabits);
                 console.log("Restricted sites:", websites);
+                console.log("Username:", username);
                 try {
                   if (newState) {
                     console.log(websites);
@@ -51,6 +67,7 @@ export default function Home() {
                       body: JSON.stringify({
                         banned: websites,
                         config: activeHabits,
+                        username: username.trim(),
                       }),
                     });
                   } else {
@@ -84,6 +101,9 @@ export default function Home() {
 
           {/* Restricted Websites Section */}
           <RestrictedWebsites websites={websites} setWebsites={setWebsites} />
+
+          {/* Leaderboard Section */}
+          <Leaderboard />
         </div>
       </main>
     </div>
