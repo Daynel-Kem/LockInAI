@@ -5,7 +5,7 @@ nail_biting = True
 
 # Configs
 BANNED_WORDS_LIST = ["youtube", "instagram", "tiktok", "porn", "game"]
-CAMERA_CONFIG = [nose_picking, gooning, yawning, nail_biting]
+CAMERA_CONFIG = [nose_picking, yawning, nail_biting]
 
 # Setters
 # [list of strings]

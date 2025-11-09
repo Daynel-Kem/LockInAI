@@ -10,16 +10,7 @@ def get_active_window_title():
         return pywinctl.getActiveWindowTitle()
     except Exception as e:
         return ""
-
-def check_for_banned_words(txt):
-    w = -1
-    for word in banned_words:
-        if (word.lower() in txt.lower()):
-            w = word
-    return w
     
-lastWord = -1
-banned_words = ["youtube", "instagram", "tiktok", "porn", "game"]
 
 # while True:
 #     title = get_active_window_title()

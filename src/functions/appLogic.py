@@ -8,9 +8,11 @@ class MyApp():
         self.socketio = socketio
         self.status = False
         self.thread = None
+        self.banned_words = []
+        self.camera_config = []
 
     # Starts the App
-    def start(self):
+    def start(self, banned_words, camera_config):
         if self.status:
             print("already running")
             return
@@ -22,6 +24,15 @@ class MyApp():
 
     # Run the actual process in a thread
     def _process_loop(self):
+        lastWord = -1
+
+        def check_for_banned_words(txt):
+            w = -1
+            for word in self.banned_words:
+                if (word.lower() in txt.lower()):
+                    w = word
+            return w
+
         while self.status:
             title = get_active_window_title()
 
