@@ -11,28 +11,34 @@ detector = MyApp(socketio)
 
 @app.route("/start", methods=["POST"])
 def start():
-    data = request.json
-    banned_words = data.get("banned")
-    config = data.get("config")
+    try:
+        data = request.json
+        banned_words = data.get("banned")
+        config = data.get("config")
 
-    """
-    Json bodies should be in the form of
-        {
-            "banned": [array of strings]
-            "config": [bool, bool, bool]
-        }
-    where [bool, bool, bool] = [nose, yawn, nail]
-    and   [array of strings] = [list of banned words]
-    """
+        """
+        Json bodies should be in the form of
+            {
+                "banned": [array of strings]
+                "config": [bool, bool, bool]
+            }
+        where [bool, bool, bool] = [nose, yawn, nail]
+        and   [array of strings] = [list of banned words]
+        """
 
-    #print(banned_words, config)
-    detector.start(banned_words, config)
-    return jsonify({"status": "started"}, 200)
+        print(banned_words, config)
+        detector.start(banned_words, config)
+        return jsonify({"status": "started"}, 200)
+    except Exception as e:
+        return jsonify({"error": e}, 400)
 
 @app.route("/stop", methods=["POST"])
 def stop():
-    detector.stop()
-    return jsonify({"status": "stopped"}, 200)
+    try:
+        detector.stop()
+        return jsonify({"status": "stopped"}, 200)
+    except Exception as e:
+        return jsonify({"error": e}, 400)
 
 @app.route("/status", methods=["GET"])
 def status():
